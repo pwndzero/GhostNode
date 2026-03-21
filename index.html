@@ -5,79 +5,61 @@
 
 <title>GhostNode</title>
 
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-margin:0;
-background:black;
-color:#ff0033;
+
+background:#050000;
+color:#ff3b3b;
 font-family:monospace;
 text-align:center;
-overflow:hidden;
-}
-
-/* matrix background */
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-z-index:-1;
-}
-
-/* skull logo */
-
-img{
-width:140px;
-margin-top:10vh;
-
-filter:
-drop-shadow(0 0 10px #ff0033)
-drop-shadow(0 0 30px #ff0033);
+margin:0;
+padding-top:8%;
 
 }
 
-/* title */
+/* glowing title */
 
 h1{
 
-font-size:42px;
+font-size:48px;
 letter-spacing:6px;
 
 text-shadow:
-0 0 5px #ff0033,
-0 0 20px #ff0033;
+0 0 8px #ff0000,
+0 0 25px #ff0000,
+0 0 45px #ff0000;
 
-animation: glitch 2s infinite;
-
-}
-
-@keyframes glitch{
-
-0%{transform:translate(0)}
-20%{transform:translate(-2px,2px)}
-40%{transform:translate(-2px,-2px)}
-60%{transform:translate(2px,2px)}
-80%{transform:translate(2px,-2px)}
-100%{transform:translate(0)}
+margin-bottom:5px;
 
 }
 
-/* search */
+.subtitle{
+
+opacity:0.7;
+margin-bottom:35px;
+
+}
+
+/* search box */
 
 input{
 
-padding:14px;
-width:75%;
-max-width:420px;
 background:black;
-border:1px solid #ff0033;
-color:#ff0033;
-font-size:18px;
+border:1px solid #ff3b3b;
+color:#ff3b3b;
+padding:16px;
+width:320px;
+font-size:16px;
+
 outline:none;
-margin-top:20px;
+
+box-shadow:
+0 0 12px #ff0000;
 
 }
 
@@ -85,61 +67,120 @@ margin-top:20px;
 
 button{
 
-padding:12px;
-margin:6px;
 background:black;
-border:1px solid #ff0033;
-color:#ff0033;
+border:1px solid #ff3b3b;
+color:#ff3b3b;
+
+padding:14px;
+margin:10px;
+
 cursor:pointer;
+
+font-size:15px;
+
+box-shadow:
+0 0 12px #ff0000;
+
+transition:.2s;
 
 }
 
-/* popups */
+button:hover{
+
+background:#140000;
+
+box-shadow:
+0 0 30px #ff0000;
+
+}
+
+/* addons panel */
+
+.panel{
+
+margin-top:45px;
+
+padding:25px;
+
+border:1px solid #ff3b3b;
+
+display:inline-block;
+
+box-shadow:
+0 0 35px #ff0000;
+
+}
+
+/* popup */
 
 .popup{
 
 position:fixed;
+
 top:50%;
+
 left:50%;
+
 transform:translate(-50%,-50%);
+
 background:black;
-border:1px solid #ff0033;
-padding:20px;
+
+border:1px solid #ff3b3b;
+
+padding:30px;
+
 display:none;
-z-index:1000;
+
+box-shadow:
+0 0 40px #ff0000;
 
 }
 
-/* warning screen */
+/* tor warning */
 
 #warning{
 
 position:fixed;
+
 top:0;
+
 left:0;
+
 width:100%;
+
 height:100%;
-background:black;
-color:#ff0033;
+
+background:#000000f0;
+
 display:none;
+
 justify-content:center;
+
 align-items:center;
-text-align:center;
-z-index:2000;
 
 }
 
-#warning img{
+.warnbox{
 
-width:160px;
-margin-bottom:20px;
+border:1px solid #ff3b3b;
+
+padding:35px;
+
+box-shadow:
+0 0 60px #ff0000;
 
 }
 
 .small{
 
-font-size:12px;
 opacity:0.6;
+font-size:12px;
+
+}
+
+a{
+
+text-decoration:none;
 
 }
 
@@ -149,140 +190,123 @@ opacity:0.6;
 
 <body>
 
-<canvas id="matrix"></canvas>
-
-<img src="skull.png">
-
 <h1>GHOSTNODE</h1>
 
-<p>anonymous connection ready</p>
+<div class="subtitle">
 
-<input id="search" placeholder="enter query">
-
-<br>
-
-<button onclick="ddg()">DuckDuckGo</button>
-<button onclick="startpage()">Startpage</button>
-<button onclick="searx()">SearX</button>
-
-<br>
-
-<button onclick="openTor()">Download TOR</button>
-<button onclick="showGuide()">TOR install guide</button>
-
-<br>
-
-<button onclick="panic()">PANIC</button>
-
-<button onclick="homepageGuide()">Make GhostNode Homepage</button>
-
-<p class="small">
-privacy mode enabled
-</p>
-
-<!-- TOR GUIDE -->
-
-<div class="popup" id="guide">
-
-<h3>TOR INSTALL</h3>
-
-1. download TOR browser<br>
-2. install app<br>
-3. open TOR browser<br>
-4. open GhostNode<br>
-
-<br>
-
-<button onclick="closeGuide()">close</button>
+PRIVATE • ANONYMOUS • SECURE
 
 </div>
 
-<!-- HOMEPAGE GUIDE -->
+<input id="q" placeholder="search anonymously">
+
+<br>
+
+<button onclick="search()">
+
+SEARCH
+
+</button>
+
+<br>
+
+<button onclick="homepageGuide()">
+
+MAKE HOMEPAGE
+
+</button>
+
+<div class="panel">
+
+<h3>ADD-ONS</h3>
+
+<a href="https://www.torproject.org/download/">
+
+<button>
+
+Tor Browser
+
+</button>
+
+</a>
+
+<a href="https://protonvpn.com/download">
+
+<button>
+
+Proton VPN
+
+</button>
+
+</a>
+
+<div class="small">
+
+recommended for anonymity
+
+</div>
+
+</div>
+
+<!-- homepage popup -->
 
 <div class="popup" id="homepage">
 
 <h3>SET AS HOMEPAGE</h3>
 
-<b>PHONE</b>
-
-<br><br>
-
 Chrome:
-menu ⋮
-→ settings
-→ homepage
-→ enter GhostNode link
+settings → homepage
 
 <br><br>
 
 Brave:
-menu ⋮
-→ settings
-→ homepage
-→ add GhostNode link
+settings → homepage
 
 <br><br>
 
-TOR:
-settings
-→ home
-→ set custom URL
+Tor:
+settings → home → custom URL
 
 <br><br>
 
-<b>COMPUTER</b>
-
-<br><br>
-
-Chrome:
-settings
-→ on startup
-→ open specific page
-
-<br><br>
-
-Firefox:
-settings
-→ home
-→ homepage URL
+paste GhostNode link
 
 <br><br>
 
 <button onclick="closeHomepage()">
+
 close
+
 </button>
 
 </div>
 
-<!-- WARNING SCREEN -->
+<!-- tor warning -->
 
 <div id="warning">
 
-<div>
-
-<img src="skull.png">
+<div class="warnbox">
 
 <h2>WARNING</h2>
 
-<p>
+not using tor browser
 
-not using private browser<br><br>
+<br><br>
 
-recommended:<br>
+for better anonymity use tor
 
-TOR browser<br>
-Brave browser
+<br><br>
 
-</p>
+<button onclick="continueSite()">
 
-<button onclick="closeWarning()">
-continue anyway
+continue
+
 </button>
 
-<br>
+<button onclick="getTor()">
 
-<button onclick="openTor()">
-download TOR
+download tor
+
 </button>
 
 </div>
@@ -291,47 +315,11 @@ download TOR
 
 <script>
 
-/* search */
+function search(){
 
-const q=document.getElementById("search")
+let q=document.getElementById("q").value
 
-function ddg(){
-
-window.location="https://duckduckgo.com/?q="+q.value
-
-}
-
-function startpage(){
-
-window.location="https://www.startpage.com/search?q="+q.value
-
-}
-
-function searx(){
-
-window.location="https://searx.be/search?q="+q.value
-
-}
-
-/* tor */
-
-function openTor(){
-
-window.location="https://www.torproject.org/download/"
-
-}
-
-/* popups */
-
-function showGuide(){
-
-document.getElementById("guide").style.display="block"
-
-}
-
-function closeGuide(){
-
-document.getElementById("guide").style.display="none"
+window.location="https://duckduckgo.com/?q="+q
 
 }
 
@@ -347,85 +335,35 @@ document.getElementById("homepage").style.display="none"
 
 }
 
-/* panic */
+function continueSite(){
 
-function panic(){
-
-document.body.innerHTML=""
-
-document.body.style.background="white"
+document.getElementById("warning").style.display="none"
 
 }
 
-/* warning */
+function getTor(){
 
-const ua=navigator.userAgent.toLowerCase()
+window.location="https://www.torproject.org/download/"
+
+}
+
+/* simple browser check */
+
+let ua=navigator.userAgent.toLowerCase()
 
 if(
 
-ua.includes("chrome")
-|| ua.includes("safari")
-|| ua.includes("edg")
+ua.includes("chrome") ||
+
+ua.includes("safari") ||
+
+ua.includes("edg")
 
 ){
 
 document.getElementById("warning").style.display="flex"
 
 }
-
-function closeWarning(){
-
-document.getElementById("warning").style.display="none"
-
-}
-
-/* matrix rain */
-
-const canvas=document.getElementById("matrix")
-
-const ctx=canvas.getContext("2d")
-
-canvas.height=window.innerHeight
-canvas.width=window.innerWidth
-
-const letters="01GHOSTNODE"
-
-const fontSize=14
-
-const columns=canvas.width/fontSize
-
-const drops=[]
-
-for(let x=0;x<columns;x++)
-drops[x]=1
-
-function draw(){
-
-ctx.fillStyle="rgba(0,0,0,0.05)"
-
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-ctx.fillStyle="#ff0033"
-
-ctx.font=fontSize+"px monospace"
-
-for(let i=0;i<drops.length;i++){
-
-const text=letters.charAt(Math.floor(Math.random()*letters.length))
-
-ctx.fillText(text,i*fontSize,drops[i]*fontSize)
-
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-
-drops[i]=0
-
-drops[i]++
-
-}
-
-}
-
-setInterval(draw,33)
 
 </script>
 
