@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>GhostNode</title>
@@ -13,39 +11,41 @@
 
 <style>
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 
 background:#000;
-
 color:#e6e6e6;
 
 font-family:Consolas, monospace;
 
 margin:0;
-
 padding:20px;
 
 display:flex;
-
 justify-content:center;
 
-overflow:hidden;
+overflow-x:hidden;
+overflow-y:auto;
+
+min-height:100vh;
 
 }
 
 
-/* animated background */
+/* animated network background */
 
 canvas{
 
 position:fixed;
 
 top:0;
-
 left:0;
 
 width:100%;
-
 height:100%;
 
 pointer-events:none;
@@ -55,12 +55,11 @@ z-index:-1;
 }
 
 
-/* main container */
+/* container */
 
 .container{
 
 max-width:720px;
-
 width:100%;
 
 text-align:center;
@@ -78,7 +77,7 @@ margin-bottom:10px;
 
 filter:
 
-drop-shadow(0 0 12px rgba(255,0,0,.5));
+drop-shadow(0 0 15px rgba(255,0,0,.6));
 
 }
 
@@ -137,7 +136,7 @@ border-bottom:1px solid #ff3b3b;
 }
 
 
-/* content boxes */
+/* boxes */
 
 .box{
 
@@ -158,7 +157,7 @@ line-height:1.6;
 }
 
 
-/* section titles */
+/* titles */
 
 .title{
 
@@ -194,13 +193,15 @@ box-sizing:border-box;
 }
 
 
-/* button */
+/* buttons */
 
 button{
 
 border:1px solid #ff3b3b;
 
 color:#fff;
+
+cursor:pointer;
 
 }
 
@@ -233,16 +234,18 @@ display:none;
 
 }
 
-
 </style>
 
 </head>
 
 
+
 <body>
 
 
+
 <canvas id="network"></canvas>
+
 
 
 <div class="container">
@@ -277,7 +280,7 @@ display:none;
 
 
 
-<!-- SEARCH TAB -->
+<!-- SEARCH -->
 
 
 <div id="searchTab">
@@ -293,18 +296,10 @@ SEARCH WEB
 </div>
 
 
-<input
-
-id="q"
-
-placeholder="search anonymously"
-
-
->
+<input id="q" placeholder="search anonymously">
 
 
 <select id="engine">
-
 
 <option value="duck">
 
@@ -351,13 +346,13 @@ SEARCH OPERATORS
 </div>
 
 
-site:example.com search one site  
+site:example.com search one website  
 
 filetype:pdf find documents  
 
 "exact phrase" exact results  
 
--word exclude word  
+-word exclude results  
 
 
 </div>
@@ -367,7 +362,7 @@ filetype:pdf find documents
 
 
 
-<!-- TOR TAB -->
+<!-- TOR -->
 
 
 <div id="torTab" class="hidden">
@@ -464,7 +459,7 @@ Official Tor Browser
 
 
 
-<!-- VPN TAB -->
+<!-- VPN -->
 
 
 <div id="vpnTab" class="hidden">
@@ -529,7 +524,7 @@ TunnelBear
 
 
 
-<!-- PRIVACY TAB -->
+<!-- PRIVACY -->
 
 
 <div id="privacyTab" class="hidden">
@@ -584,7 +579,7 @@ limit extensions
 
 
 
-<!-- DNS TAB -->
+<!-- DNS -->
 
 
 <div id="dnsTab" class="hidden">
@@ -614,7 +609,7 @@ NextDNS
 
 
 
-<!-- PASSWORD TAB -->
+<!-- PASSWORDS -->
 
 
 <div id="passwordTab" class="hidden">
@@ -663,7 +658,7 @@ KeePass
 
 
 
-<!-- SEARCH ENGINE TAB -->
+<!-- ENGINES -->
 
 
 <div id="enginesTab" class="hidden">
@@ -742,17 +737,14 @@ let url=""
 
 
 if(e=="duck")
-
 url="https://duckduckgo.com/?q="+q
 
 
 if(e=="brave")
-
 url="https://search.brave.com/search?q="+q
 
 
 if(e=="searx")
-
 url="https://searx.be/search?q="+q
 
 
@@ -765,17 +757,33 @@ window.open(url)
 /* animated network background */
 
 
+
 const canvas=document.getElementById("network")
 
 const ctx=canvas.getContext("2d")
 
 
+
+function resizeCanvas(){
+
 canvas.width=window.innerWidth
 
-canvas.height=window.innerHeight
+canvas.height=document.body.scrollHeight
+
+}
+
+
+
+resizeCanvas()
+
+
+
+window.addEventListener("resize",resizeCanvas)
+
 
 
 let particles=[]
+
 
 
 for(let i=0;i<65;i++){
@@ -802,11 +810,9 @@ function draw(){
 ctx.clearRect(
 
 0,
-
 0,
 
 canvas.width,
-
 canvas.height
 
 )
@@ -822,30 +828,22 @@ a.y+=a.vy
 
 
 if(a.x<0||a.x>canvas.width)
-
 a.vx*=-1
 
 
 if(a.y<0||a.y>canvas.height)
-
 a.vy*=-1
 
 
 ctx.fillStyle=
-
 "rgba(0,255,156,.35)"
 
 
 ctx.fillRect(
-
 a.x,
-
 a.y,
-
 2,
-
 2
-
 )
 
 
@@ -853,37 +851,26 @@ a.y,
 particles.forEach(b=>{
 
 
-let d=
-
-Math.hypot(
-
+let d=Math.hypot(
 a.x-b.x,
-
 a.y-b.y
-
 )
 
 
 
 if(d<130){
 
-
 ctx.strokeStyle=
-
 "rgba(0,255,156,.05)"
 
 
 ctx.beginPath()
 
-
 ctx.moveTo(a.x,a.y)
-
 
 ctx.lineTo(b.x,b.y)
 
-
 ctx.stroke()
-
 
 }
 
@@ -903,6 +890,7 @@ draw()
 
 
 </script>
+
 
 
 </body>
