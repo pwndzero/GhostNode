@@ -24,14 +24,15 @@ font-family:Consolas, monospace;
 margin:0;
 padding:20px;
 
-overflow-x:hidden;
+overflow-y:auto;
 
 }
 
+/* subtle animated background */
 
-/* background */
+body::before{
 
-canvas{
+content:"";
 
 position:fixed;
 
@@ -41,14 +42,33 @@ left:0;
 width:100%;
 height:100%;
 
+background:
+
+radial-gradient(circle at 20% 30%, rgba(0,255,156,.06) 1px, transparent 2px),
+
+radial-gradient(circle at 80% 60%, rgba(0,255,156,.05) 1px, transparent 2px),
+
+radial-gradient(circle at 40% 80%, rgba(0,255,156,.04) 1px, transparent 2px);
+
+background-size:120px 120px;
+
+animation:moveBG 60s linear infinite;
+
 pointer-events:none;
 
 z-index:-1;
 
 }
 
+@keyframes moveBG{
 
-/* container */
+from{ transform:translateY(0); }
+to{ transform:translateY(120px); }
+
+}
+
+
+/* layout */
 
 .container{
 
@@ -103,7 +123,6 @@ margin-bottom:18px;
 
 }
 
-
 .tab{
 
 cursor:pointer;
@@ -115,7 +134,6 @@ font-size:15px;
 padding-bottom:3px;
 
 }
-
 
 .tab.active{
 
@@ -155,14 +173,12 @@ color:#ff3b3b;
 
 margin-bottom:6px;
 
-letter-spacing:1px;
-
 }
 
 
 /* inputs */
 
-input,select,button{
+input,select,button,textarea{
 
 width:100%;
 
@@ -180,6 +196,8 @@ text-align:center;
 
 box-sizing:border-box;
 
+font-family:Consolas;
+
 }
 
 
@@ -192,7 +210,6 @@ color:#fff;
 cursor:pointer;
 
 }
-
 
 button:hover{
 
@@ -228,9 +245,6 @@ display:none;
 <body>
 
 
-<canvas id="network"></canvas>
-
-
 <div class="container">
 
 
@@ -242,6 +256,7 @@ display:none;
 
 
 <div class="tabs">
+
 
 <span class="tab active" onclick="showTab('search',this)">Search</span>
 
@@ -256,6 +271,7 @@ display:none;
 <span class="tab" onclick="showTab('password',this)">Passwords</span>
 
 <span class="tab" onclick="showTab('engines',this)">Engines</span>
+
 
 </div>
 
@@ -283,15 +299,23 @@ display:none;
 
 </div>
 
+</div>
+
+
+
+<!-- SECRET LOGIN -->
+
+<div id="loginTab" class="hidden">
 
 <div class="box">
 
-<div class="title">SEARCH OPERATORS</div>
+<div class="title">ENTER PASSWORD</div>
 
-site:example.com  
-filetype:pdf  
-"exact phrase"  
--word  
+<input id="pass" type="password">
+
+<button onclick="checkPass()">Enter</button>
+
+<div id="msg"></div>
 
 </div>
 
@@ -299,150 +323,68 @@ filetype:pdf
 
 
 
-<!-- TOR -->
+<!-- SECRET PAGE -->
 
-<div id="torTab" class="hidden">
-
-<div class="box">
-
-<div class="title">HOW TOR WORKS</div>
-
-Entry Node — sees IP  
-Relay Node — encrypted middle  
-Exit Node — connects to site  
-
-</div>
+<div id="secretTab" class="hidden">
 
 
 <div class="box">
 
-<div class="title">WHAT TOR HIDES</div>
+<div class="title">LINUX COMMANDS</div>
 
-IP address  
-location  
-ISP activity  
+ls → list files  
 
-</div>
+cd → change directory  
 
+pwd → show path  
 
-<div class="box">
+mkdir → create folder  
 
-<div class="title">BEST PRACTICES</div>
+rm → delete file  
 
-avoid logins  
-avoid extensions  
-avoid torrents  
+sudo apt update  
 
 </div>
 
 
 <div class="box">
 
-<div class="title">DOWNLOAD</div>
+<div class="title">HASH IDENTIFIER</div>
 
-<a href="https://www.torproject.org/download/">
+<textarea id="hash"></textarea>
 
-Tor Browser
+<button onclick="identifyHash()">Identify</button>
 
-</a>
-
-</div>
-
-</div>
-
-
-
-<!-- VPN -->
-
-<div id="vpnTab" class="hidden">
-
-<div class="box">
-
-<div class="title">VPN PURPOSE</div>
-
-encrypts traffic  
-hides IP  
-protects wifi  
+<div id="hashResult"></div>
 
 </div>
 
 
 <div class="box">
 
-<div class="title">FREE VPN</div>
+<div class="title">BASE64</div>
 
-<a href="https://protonvpn.com/download">ProtonVPN</a>
+<textarea id="b64"></textarea>
 
-<a href="https://windscribe.com/download">Windscribe</a>
+<button onclick="enc()">Encode</button>
 
-<a href="https://www.tunnelbear.com/download">TunnelBear</a>
+<button onclick="dec()">Decode</button>
+
+<div id="b64Result"></div>
 
 </div>
 
-</div>
-
-
-
-<!-- PRIVACY -->
-
-<div id="privacyTab" class="hidden">
 
 <div class="box">
 
-cookies  
-fingerprinting  
-tracking scripts  
+<div class="title">PASSWORD GENERATOR</div>
+
+<button onclick="gen()">Generate</button>
+
+<div id="pw"></div>
 
 </div>
 
-</div>
-
-
-
-<!-- DNS -->
-
-<div id="dnsTab" class="hidden">
-
-<div class="box">
-
-Cloudflare 1.1.1.1  
-Quad9 9.9.9.9  
-
-</div>
-
-</div>
-
-
-
-<!-- PASSWORD -->
-
-<div id="passwordTab" class="hidden">
-
-<div class="box">
-
-12+ characters  
-unique passwords  
-
-Bitwarden  
-KeePass  
-
-</div>
-
-</div>
-
-
-
-<!-- ENGINES -->
-
-<div id="enginesTab" class="hidden">
-
-<div class="box">
-
-DuckDuckGo  
-Brave  
-SearX  
-
-</div>
 
 </div>
 
@@ -453,6 +395,10 @@ SearX
 
 
 <script>
+
+const trigger="3$!169857722"
+
+const password="Node41925"
 
 
 function showTab(tab,el){
@@ -474,14 +420,25 @@ el.classList.add("active")
 }
 
 
-
 function go(){
 
 let q=document.getElementById("q").value
 
+if(q===trigger){
+
+searchTab.style.display="none"
+
+loginTab.style.display="block"
+
+return
+
+}
+
+
 let e=document.getElementById("engine").value
 
 let url=""
+
 
 if(e=="duck")
 url="https://duckduckgo.com/?q="+q
@@ -492,87 +449,75 @@ url="https://search.brave.com/search?q="+q
 if(e=="searx")
 url="https://searx.be/search?q="+q
 
+
 window.open(url)
 
 }
 
 
+function checkPass(){
 
-/* animated background */
+if(pass.value===password){
 
+loginTab.style.display="none"
 
-const canvas=document.getElementById("network")
-const ctx=canvas.getContext("2d")
+secretTab.style.display="block"
 
-function resize(){
+}else{
 
-canvas.width=window.innerWidth
-canvas.height=document.documentElement.scrollHeight
+msg.innerText="incorrect"
 
 }
-
-resize()
-
-window.addEventListener("resize",resize)
-
-
-let particles=[]
-
-for(let i=0;i<65;i++){
-
-particles.push({
-
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-vx:(Math.random()-.5)*.35,
-vy:(Math.random()-.5)*.35
-
-})
 
 }
 
 
-function draw(){
+function identifyHash(){
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
+let h=hash.value
 
-particles.forEach(a=>{
+hashResult.innerText=
 
-a.x+=a.vx
-a.y+=a.vy
+h.length==32?"MD5":
 
-if(a.x<0||a.x>canvas.width) a.vx*=-1
-if(a.y<0||a.y>canvas.height) a.vy*=-1
+h.length==40?"SHA1":
 
-ctx.fillStyle="rgba(0,255,156,.35)"
+h.length==64?"SHA256":
 
-ctx.fillRect(a.x,a.y,2,2)
-
-
-particles.forEach(b=>{
-
-let d=Math.hypot(a.x-b.x,a.y-b.y)
-
-if(d<130){
-
-ctx.strokeStyle="rgba(0,255,156,.05)"
-
-ctx.beginPath()
-ctx.moveTo(a.x,a.y)
-ctx.lineTo(b.x,b.y)
-ctx.stroke()
+"unknown"
 
 }
 
-})
 
-})
+function enc(){
 
-requestAnimationFrame(draw)
+b64Result.innerText=btoa(b64.value)
 
 }
 
-draw()
+
+function dec(){
+
+b64Result.innerText=atob(b64.value)
+
+}
+
+
+function gen(){
+
+let c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*"
+
+let p=""
+
+for(let i=0;i<16;i++){
+
+p+=c[Math.floor(Math.random()*c.length)]
+
+}
+
+pw.innerText=p
+
+}
 
 </script>
 
