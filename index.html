@@ -8,7 +8,6 @@
 
 <title>GhostNode</title>
 
-
 <style>
 
 html{
@@ -25,18 +24,12 @@ font-family:Consolas, monospace;
 margin:0;
 padding:20px;
 
-display:flex;
-justify-content:center;
-
 overflow-x:hidden;
-overflow-y:auto;
-
-min-height:100vh;
 
 }
 
 
-/* animated network background */
+/* background */
 
 canvas{
 
@@ -60,7 +53,8 @@ z-index:-1;
 .container{
 
 max-width:720px;
-width:100%;
+
+margin:auto;
 
 text-align:center;
 
@@ -75,9 +69,7 @@ width:150px;
 
 margin-bottom:10px;
 
-filter:
-
-drop-shadow(0 0 15px rgba(255,0,0,.6));
+filter:drop-shadow(0 0 18px rgba(255,0,0,.6));
 
 }
 
@@ -90,9 +82,7 @@ letter-spacing:4px;
 
 margin-bottom:18px;
 
-text-shadow:
-
-0 0 14px rgba(255,0,0,.7);
+text-shadow:0 0 18px rgba(255,0,0,.7);
 
 }
 
@@ -193,8 +183,6 @@ box-sizing:border-box;
 }
 
 
-/* buttons */
-
 button{
 
 border:1px solid #ff3b3b;
@@ -214,8 +202,6 @@ color:#000;
 
 }
 
-
-/* links */
 
 a{
 
@@ -239,13 +225,10 @@ display:none;
 </head>
 
 
-
 <body>
 
 
-
 <canvas id="network"></canvas>
-
 
 
 <div class="container">
@@ -259,7 +242,6 @@ display:none;
 
 
 <div class="tabs">
-
 
 <span class="tab active" onclick="showTab('search',this)">Search</span>
 
@@ -275,88 +257,43 @@ display:none;
 
 <span class="tab" onclick="showTab('engines',this)">Engines</span>
 
-
 </div>
 
 
 
 <!-- SEARCH -->
 
-
 <div id="searchTab">
-
 
 <div class="box">
 
-
-<div class="title">
-
-SEARCH WEB
-
-</div>
-
+<div class="title">SEARCH WEB</div>
 
 <input id="q" placeholder="search anonymously">
 
-
 <select id="engine">
 
-<option value="duck">
-
-DuckDuckGo
-
-</option>
-
-
-<option value="brave">
-
-Brave
-
-</option>
-
-
-<option value="searx">
-
-SearX
-
-</option>
-
+<option value="duck">DuckDuckGo</option>
+<option value="brave">Brave</option>
+<option value="searx">SearX</option>
 
 </select>
 
-
-<button onclick="go()">
-
-Search
-
-</button>
-
+<button onclick="go()">Search</button>
 
 </div>
-
 
 
 <div class="box">
 
+<div class="title">SEARCH OPERATORS</div>
 
-<div class="title">
-
-SEARCH OPERATORS
-
-</div>
-
-
-site:example.com search one website  
-
-filetype:pdf find documents  
-
-"exact phrase" exact results  
-
--word exclude results  
-
+site:example.com  
+filetype:pdf  
+"exact phrase"  
+-word  
 
 </div>
-
 
 </div>
 
@@ -364,96 +301,52 @@ filetype:pdf find documents
 
 <!-- TOR -->
 
-
 <div id="torTab" class="hidden">
 
-
 <div class="box">
 
+<div class="title">HOW TOR WORKS</div>
 
-<div class="title">
-
-HOW TOR WORKS
-
-</div>
-
-
-Entry Node — sees your IP  
-
-Relay Node — encrypted middle layer  
-
-Exit Node — connects to website  
-
+Entry Node — sees IP  
+Relay Node — encrypted middle  
+Exit Node — connects to site  
 
 </div>
-
 
 
 <div class="box">
 
-
-<div class="title">
-
-WHAT TOR HIDES
-
-</div>
-
+<div class="title">WHAT TOR HIDES</div>
 
 IP address  
-
 location  
-
-ISP monitoring  
-
-browsing activity  
-
+ISP activity  
 
 </div>
-
 
 
 <div class="box">
 
+<div class="title">BEST PRACTICES</div>
 
-<div class="title">
-
-BEST PRACTICES
-
-</div>
-
-
-avoid personal logins  
-
+avoid logins  
 avoid extensions  
-
 avoid torrents  
 
-use HTTPS websites  
-
-
 </div>
-
 
 
 <div class="box">
 
-
-<div class="title">
-
-DOWNLOAD TOR
-
-</div>
-
+<div class="title">DOWNLOAD</div>
 
 <a href="https://www.torproject.org/download/">
 
-Official Tor Browser
+Tor Browser
 
 </a>
 
-
 </div>
-
 
 </div>
 
@@ -461,64 +354,30 @@ Official Tor Browser
 
 <!-- VPN -->
 
-
 <div id="vpnTab" class="hidden">
 
-
 <div class="box">
 
+<div class="title">VPN PURPOSE</div>
 
-<div class="title">
-
-WHAT VPN DOES
-
-</div>
-
-
-encrypts internet traffic  
-
-hides IP address  
-
-protects public wifi  
-
+encrypts traffic  
+hides IP  
+protects wifi  
 
 </div>
-
 
 
 <div class="box">
 
+<div class="title">FREE VPN</div>
 
-<div class="title">
+<a href="https://protonvpn.com/download">ProtonVPN</a>
 
-FREE VPN OPTIONS
+<a href="https://windscribe.com/download">Windscribe</a>
 
-</div>
-
-
-<a href="https://protonvpn.com/download">
-
-ProtonVPN
-
-</a>
-
-
-<a href="https://windscribe.com/download">
-
-Windscribe
-
-</a>
-
-
-<a href="https://www.tunnelbear.com/download">
-
-TunnelBear
-
-</a>
-
+<a href="https://www.tunnelbear.com/download">TunnelBear</a>
 
 </div>
-
 
 </div>
 
@@ -526,54 +385,15 @@ TunnelBear
 
 <!-- PRIVACY -->
 
-
 <div id="privacyTab" class="hidden">
 
-
 <div class="box">
-
-
-<div class="title">
-
-TRACKING METHODS
-
-</div>
-
 
 cookies  
-
 fingerprinting  
-
 tracking scripts  
 
-tracking pixels  
-
-
 </div>
-
-
-
-<div class="box">
-
-
-<div class="title">
-
-REDUCE TRACKING
-
-</div>
-
-
-block cookies  
-
-use privacy browsers  
-
-disable telemetry  
-
-limit extensions  
-
-
-</div>
-
 
 </div>
 
@@ -581,78 +401,32 @@ limit extensions
 
 <!-- DNS -->
 
-
 <div id="dnsTab" class="hidden">
-
 
 <div class="box">
 
-
-<div class="title">
-
-PRIVATE DNS
-
-</div>
-
-
 Cloudflare 1.1.1.1  
-
 Quad9 9.9.9.9  
 
-NextDNS  
-
-
 </div>
-
 
 </div>
 
 
 
-<!-- PASSWORDS -->
-
+<!-- PASSWORD -->
 
 <div id="passwordTab" class="hidden">
 
-
 <div class="box">
-
-
-<div class="title">
-
-STRONG PASSWORD RULES
-
-</div>
-
 
 12+ characters  
-
-use symbols  
-
 unique passwords  
 
-
-</div>
-
-
-
-<div class="box">
-
-
-<div class="title">
-
-PASSWORD MANAGERS
-
-</div>
-
-
 Bitwarden  
-
 KeePass  
 
-
 </div>
-
 
 </div>
 
@@ -660,29 +434,15 @@ KeePass
 
 <!-- ENGINES -->
 
-
 <div id="enginesTab" class="hidden">
-
 
 <div class="box">
 
-
-<div class="title">
-
-PRIVATE SEARCH ENGINES
-
-</div>
-
-
-DuckDuckGo — no tracking  
-
-Brave — independent index  
-
-SearX — meta search  
-
+DuckDuckGo  
+Brave  
+SearX  
 
 </div>
-
 
 </div>
 
@@ -695,34 +455,23 @@ SearX — meta search
 <script>
 
 
-
 function showTab(tab,el){
 
 document
-
 .querySelectorAll("[id$='Tab']")
-
 .forEach(t=>t.style.display="none")
 
-
 document
-
 .getElementById(tab+"Tab")
-
 .style.display="block"
 
-
 document
-
 .querySelectorAll(".tab")
-
 .forEach(t=>t.classList.remove("active"))
-
 
 el.classList.add("active")
 
 }
-
 
 
 
@@ -732,21 +481,16 @@ let q=document.getElementById("q").value
 
 let e=document.getElementById("engine").value
 
-
 let url=""
-
 
 if(e=="duck")
 url="https://duckduckgo.com/?q="+q
 
-
 if(e=="brave")
 url="https://search.brave.com/search?q="+q
 
-
 if(e=="searx")
 url="https://searx.be/search?q="+q
-
 
 window.open(url)
 
@@ -754,48 +498,33 @@ window.open(url)
 
 
 
-/* animated network background */
-
+/* animated background */
 
 
 const canvas=document.getElementById("network")
-
 const ctx=canvas.getContext("2d")
 
-
-
-function resizeCanvas(){
+function resize(){
 
 canvas.width=window.innerWidth
-
-canvas.height=document.body.scrollHeight
+canvas.height=document.documentElement.scrollHeight
 
 }
 
+resize()
 
-
-resizeCanvas()
-
-
-
-window.addEventListener("resize",resizeCanvas)
-
+window.addEventListener("resize",resize)
 
 
 let particles=[]
-
-
 
 for(let i=0;i<65;i++){
 
 particles.push({
 
 x:Math.random()*canvas.width,
-
 y:Math.random()*canvas.height,
-
 vx:(Math.random()-.5)*.35,
-
 vy:(Math.random()-.5)*.35
 
 })
@@ -803,97 +532,51 @@ vy:(Math.random()-.5)*.35
 }
 
 
-
 function draw(){
 
-
-ctx.clearRect(
-
-0,
-0,
-
-canvas.width,
-canvas.height
-
-)
-
-
+ctx.clearRect(0,0,canvas.width,canvas.height)
 
 particles.forEach(a=>{
 
-
 a.x+=a.vx
-
 a.y+=a.vy
 
+if(a.x<0||a.x>canvas.width) a.vx*=-1
+if(a.y<0||a.y>canvas.height) a.vy*=-1
 
-if(a.x<0||a.x>canvas.width)
-a.vx*=-1
+ctx.fillStyle="rgba(0,255,156,.35)"
 
-
-if(a.y<0||a.y>canvas.height)
-a.vy*=-1
-
-
-ctx.fillStyle=
-"rgba(0,255,156,.35)"
-
-
-ctx.fillRect(
-a.x,
-a.y,
-2,
-2
-)
-
+ctx.fillRect(a.x,a.y,2,2)
 
 
 particles.forEach(b=>{
 
-
-let d=Math.hypot(
-a.x-b.x,
-a.y-b.y
-)
-
-
+let d=Math.hypot(a.x-b.x,a.y-b.y)
 
 if(d<130){
 
-ctx.strokeStyle=
-"rgba(0,255,156,.05)"
-
+ctx.strokeStyle="rgba(0,255,156,.05)"
 
 ctx.beginPath()
-
 ctx.moveTo(a.x,a.y)
-
 ctx.lineTo(b.x,b.y)
-
 ctx.stroke()
 
 }
 
-
 })
 
-
 })
-
 
 requestAnimationFrame(draw)
 
 }
 
-
 draw()
-
 
 </script>
 
 
-
 </body>
-
 
 </html>
