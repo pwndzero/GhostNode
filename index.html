@@ -1,144 +1,42 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GhostNode</title>
 
-<meta name="robots" content="noindex">
-<meta name="referrer" content="no-referrer">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
 
-background:#050000;
-color:#ff3b3b;
-font-family:monospace;
-text-align:center;
+background:#000;
+
+color:#e6e6e6;
+
+font-family:Consolas, monospace;
+
 margin:0;
-padding-top:8%;
+
+padding:20px;
+
+display:flex;
+
+justify-content:center;
+
+overflow:hidden;
 
 }
 
-/* glowing title */
 
-h1{
+/* animated background */
 
-font-size:48px;
-letter-spacing:6px;
-
-text-shadow:
-0 0 8px #ff0000,
-0 0 25px #ff0000,
-0 0 45px #ff0000;
-
-margin-bottom:5px;
-
-}
-
-.subtitle{
-
-opacity:0.7;
-margin-bottom:35px;
-
-}
-
-/* search box */
-
-input{
-
-background:black;
-border:1px solid #ff3b3b;
-color:#ff3b3b;
-padding:16px;
-width:320px;
-font-size:16px;
-
-outline:none;
-
-box-shadow:
-0 0 12px #ff0000;
-
-}
-
-/* buttons */
-
-button{
-
-background:black;
-border:1px solid #ff3b3b;
-color:#ff3b3b;
-
-padding:14px;
-margin:10px;
-
-cursor:pointer;
-
-font-size:15px;
-
-box-shadow:
-0 0 12px #ff0000;
-
-transition:.2s;
-
-}
-
-button:hover{
-
-background:#140000;
-
-box-shadow:
-0 0 30px #ff0000;
-
-}
-
-/* addons panel */
-
-.panel{
-
-margin-top:45px;
-
-padding:25px;
-
-border:1px solid #ff3b3b;
-
-display:inline-block;
-
-box-shadow:
-0 0 35px #ff0000;
-
-}
-
-/* popup */
-
-.popup{
-
-position:fixed;
-
-top:50%;
-
-left:50%;
-
-transform:translate(-50%,-50%);
-
-background:black;
-
-border:1px solid #ff3b3b;
-
-padding:30px;
-
-display:none;
-
-box-shadow:
-0 0 40px #ff0000;
-
-}
-
-/* tor warning */
-
-#warning{
+canvas{
 
 position:fixed;
 
@@ -150,223 +48,864 @@ width:100%;
 
 height:100%;
 
-background:#000000f0;
+pointer-events:none;
 
-display:none;
+z-index:-1;
+
+}
+
+
+/* main container */
+
+.container{
+
+max-width:720px;
+
+width:100%;
+
+text-align:center;
+
+}
+
+
+/* logo */
+
+.logo{
+
+width:150px;
+
+margin-bottom:10px;
+
+filter:
+
+drop-shadow(0 0 12px rgba(255,0,0,.5));
+
+}
+
+
+/* title */
+
+h2{
+
+letter-spacing:4px;
+
+margin-bottom:18px;
+
+text-shadow:
+
+0 0 14px rgba(255,0,0,.7);
+
+}
+
+
+/* tabs */
+
+.tabs{
+
+display:flex;
 
 justify-content:center;
 
-align-items:center;
+flex-wrap:wrap;
+
+gap:18px;
+
+margin-bottom:18px;
 
 }
 
-.warnbox{
+
+.tab{
+
+cursor:pointer;
+
+color:#777;
+
+font-size:15px;
+
+padding-bottom:3px;
+
+}
+
+
+.tab.active{
+
+color:#ff3b3b;
+
+border-bottom:1px solid #ff3b3b;
+
+}
+
+
+/* content boxes */
+
+.box{
+
+border:1px solid rgba(255,255,255,.06);
+
+padding:20px;
+
+margin:16px auto;
+
+background:rgba(20,20,20,.75);
+
+backdrop-filter:blur(6px);
+
+max-width:520px;
+
+line-height:1.6;
+
+}
+
+
+/* section titles */
+
+.title{
+
+color:#ff3b3b;
+
+margin-bottom:6px;
+
+letter-spacing:1px;
+
+}
+
+
+/* inputs */
+
+input,select,button{
+
+width:100%;
+
+padding:14px;
+
+margin-top:12px;
+
+background:#000;
+
+color:#00ff9c;
+
+border:1px solid #111;
+
+text-align:center;
+
+box-sizing:border-box;
+
+}
+
+
+/* button */
+
+button{
 
 border:1px solid #ff3b3b;
 
-padding:35px;
-
-box-shadow:
-0 0 60px #ff0000;
+color:#fff;
 
 }
 
-.small{
 
-opacity:0.6;
-font-size:12px;
+button:hover{
+
+background:#ff3b3b;
+
+color:#000;
 
 }
+
+
+/* links */
 
 a{
 
-text-decoration:none;
+color:#00ff9c;
+
+display:block;
+
+margin-top:6px;
 
 }
+
+
+.hidden{
+
+display:none;
+
+}
+
 
 </style>
 
 </head>
 
+
 <body>
 
-<h1>GHOSTNODE</h1>
 
-<div class="subtitle">
+<canvas id="network"></canvas>
 
-PRIVATE • ANONYMOUS • SECURE
+
+<div class="container">
+
+
+<img src="logo.png" class="logo">
+
+
+<h2>GHOSTNODE</h2>
+
+
+
+<div class="tabs">
+
+
+<span class="tab active" onclick="showTab('search',this)">Search</span>
+
+<span class="tab" onclick="showTab('tor',this)">Tor</span>
+
+<span class="tab" onclick="showTab('vpn',this)">VPN</span>
+
+<span class="tab" onclick="showTab('privacy',this)">Privacy</span>
+
+<span class="tab" onclick="showTab('dns',this)">DNS</span>
+
+<span class="tab" onclick="showTab('password',this)">Passwords</span>
+
+<span class="tab" onclick="showTab('engines',this)">Engines</span>
+
 
 </div>
 
-<input id="q" placeholder="search anonymously">
 
-<br>
 
-<button onclick="search()">
+<!-- SEARCH TAB -->
 
-SEARCH
+
+<div id="searchTab">
+
+
+<div class="box">
+
+
+<div class="title">
+
+SEARCH WEB
+
+</div>
+
+
+<input
+
+id="q"
+
+placeholder="search anonymously"
+
+
+>
+
+
+<select id="engine">
+
+
+<option value="duck">
+
+DuckDuckGo
+
+</option>
+
+
+<option value="brave">
+
+Brave
+
+</option>
+
+
+<option value="searx">
+
+SearX
+
+</option>
+
+
+</select>
+
+
+<button onclick="go()">
+
+Search
 
 </button>
 
-<br>
 
-<button onclick="homepageGuide()">
+</div>
 
-MAKE HOMEPAGE
 
-</button>
 
-<div class="panel">
+<div class="box">
 
-<h3>ADD-ONS</h3>
+
+<div class="title">
+
+SEARCH OPERATORS
+
+</div>
+
+
+site:example.com search one site  
+
+filetype:pdf find documents  
+
+"exact phrase" exact results  
+
+-word exclude word  
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- TOR TAB -->
+
+
+<div id="torTab" class="hidden">
+
+
+<div class="box">
+
+
+<div class="title">
+
+HOW TOR WORKS
+
+</div>
+
+
+Entry Node — sees your IP  
+
+Relay Node — encrypted middle layer  
+
+Exit Node — connects to website  
+
+
+</div>
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+WHAT TOR HIDES
+
+</div>
+
+
+IP address  
+
+location  
+
+ISP monitoring  
+
+browsing activity  
+
+
+</div>
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+BEST PRACTICES
+
+</div>
+
+
+avoid personal logins  
+
+avoid extensions  
+
+avoid torrents  
+
+use HTTPS websites  
+
+
+</div>
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+DOWNLOAD TOR
+
+</div>
+
 
 <a href="https://www.torproject.org/download/">
 
-<button>
-
-Tor Browser
-
-</button>
+Official Tor Browser
 
 </a>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- VPN TAB -->
+
+
+<div id="vpnTab" class="hidden">
+
+
+<div class="box">
+
+
+<div class="title">
+
+WHAT VPN DOES
+
+</div>
+
+
+encrypts internet traffic  
+
+hides IP address  
+
+protects public wifi  
+
+
+</div>
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+FREE VPN OPTIONS
+
+</div>
+
 
 <a href="https://protonvpn.com/download">
 
-<button>
-
-Proton VPN
-
-</button>
+ProtonVPN
 
 </a>
 
-<div class="small">
 
-recommended for anonymity
+<a href="https://windscribe.com/download">
 
-</div>
+Windscribe
 
-</div>
+</a>
 
-<!-- homepage popup -->
 
-<div class="popup" id="homepage">
+<a href="https://www.tunnelbear.com/download">
 
-<h3>SET AS HOMEPAGE</h3>
+TunnelBear
 
-Chrome:
-settings → homepage
+</a>
 
-<br><br>
-
-Brave:
-settings → homepage
-
-<br><br>
-
-Tor:
-settings → home → custom URL
-
-<br><br>
-
-paste GhostNode link
-
-<br><br>
-
-<button onclick="closeHomepage()">
-
-close
-
-</button>
 
 </div>
 
-<!-- tor warning -->
-
-<div id="warning">
-
-<div class="warnbox">
-
-<h2>WARNING</h2>
-
-not using tor browser
-
-<br><br>
-
-for better anonymity use tor
-
-<br><br>
-
-<button onclick="continueSite()">
-
-continue
-
-</button>
-
-<button onclick="getTor()">
-
-download tor
-
-</button>
 
 </div>
 
+
+
+<!-- PRIVACY TAB -->
+
+
+<div id="privacyTab" class="hidden">
+
+
+<div class="box">
+
+
+<div class="title">
+
+TRACKING METHODS
+
 </div>
+
+
+cookies  
+
+fingerprinting  
+
+tracking scripts  
+
+tracking pixels  
+
+
+</div>
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+REDUCE TRACKING
+
+</div>
+
+
+block cookies  
+
+use privacy browsers  
+
+disable telemetry  
+
+limit extensions  
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- DNS TAB -->
+
+
+<div id="dnsTab" class="hidden">
+
+
+<div class="box">
+
+
+<div class="title">
+
+PRIVATE DNS
+
+</div>
+
+
+Cloudflare 1.1.1.1  
+
+Quad9 9.9.9.9  
+
+NextDNS  
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- PASSWORD TAB -->
+
+
+<div id="passwordTab" class="hidden">
+
+
+<div class="box">
+
+
+<div class="title">
+
+STRONG PASSWORD RULES
+
+</div>
+
+
+12+ characters  
+
+use symbols  
+
+unique passwords  
+
+
+</div>
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+PASSWORD MANAGERS
+
+</div>
+
+
+Bitwarden  
+
+KeePass  
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- SEARCH ENGINE TAB -->
+
+
+<div id="enginesTab" class="hidden">
+
+
+<div class="box">
+
+
+<div class="title">
+
+PRIVATE SEARCH ENGINES
+
+</div>
+
+
+DuckDuckGo — no tracking  
+
+Brave — independent index  
+
+SearX — meta search  
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
 
 <script>
 
-function search(){
+
+
+function showTab(tab,el){
+
+document
+
+.querySelectorAll("[id$='Tab']")
+
+.forEach(t=>t.style.display="none")
+
+
+document
+
+.getElementById(tab+"Tab")
+
+.style.display="block"
+
+
+document
+
+.querySelectorAll(".tab")
+
+.forEach(t=>t.classList.remove("active"))
+
+
+el.classList.add("active")
+
+}
+
+
+
+
+function go(){
 
 let q=document.getElementById("q").value
 
-window.location="https://duckduckgo.com/?q="+q
+let e=document.getElementById("engine").value
+
+
+let url=""
+
+
+if(e=="duck")
+
+url="https://duckduckgo.com/?q="+q
+
+
+if(e=="brave")
+
+url="https://search.brave.com/search?q="+q
+
+
+if(e=="searx")
+
+url="https://searx.be/search?q="+q
+
+
+window.open(url)
 
 }
 
-function homepageGuide(){
 
-document.getElementById("homepage").style.display="block"
+
+/* animated network background */
+
+
+const canvas=document.getElementById("network")
+
+const ctx=canvas.getContext("2d")
+
+
+canvas.width=window.innerWidth
+
+canvas.height=window.innerHeight
+
+
+let particles=[]
+
+
+for(let i=0;i<65;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+
+y:Math.random()*canvas.height,
+
+vx:(Math.random()-.5)*.35,
+
+vy:(Math.random()-.5)*.35
+
+})
+
+}
+
+
+
+function draw(){
+
+
+ctx.clearRect(
+
+0,
+
+0,
+
+canvas.width,
+
+canvas.height
+
+)
+
+
+
+particles.forEach(a=>{
+
+
+a.x+=a.vx
+
+a.y+=a.vy
+
+
+if(a.x<0||a.x>canvas.width)
+
+a.vx*=-1
+
+
+if(a.y<0||a.y>canvas.height)
+
+a.vy*=-1
+
+
+ctx.fillStyle=
+
+"rgba(0,255,156,.35)"
+
+
+ctx.fillRect(
+
+a.x,
+
+a.y,
+
+2,
+
+2
+
+)
+
+
+
+particles.forEach(b=>{
+
+
+let d=
+
+Math.hypot(
+
+a.x-b.x,
+
+a.y-b.y
+
+)
+
+
+
+if(d<130){
+
+
+ctx.strokeStyle=
+
+"rgba(0,255,156,.05)"
+
+
+ctx.beginPath()
+
+
+ctx.moveTo(a.x,a.y)
+
+
+ctx.lineTo(b.x,b.y)
+
+
+ctx.stroke()
+
 
 }
 
-function closeHomepage(){
 
-document.getElementById("homepage").style.display="none"
+})
 
-}
 
-function continueSite(){
+})
 
-document.getElementById("warning").style.display="none"
 
-}
-
-function getTor(){
-
-window.location="https://www.torproject.org/download/"
+requestAnimationFrame(draw)
 
 }
 
-/* simple browser check */
 
-let ua=navigator.userAgent.toLowerCase()
+draw()
 
-if(
-
-ua.includes("chrome") ||
-
-ua.includes("safari") ||
-
-ua.includes("edg")
-
-){
-
-document.getElementById("warning").style.display="flex"
-
-}
 
 </script>
 
+
 </body>
+
 
 </html>
